@@ -1,22 +1,24 @@
-# Crafting Recipe Editor
+# Cauldron
 
-The Crafting Recipe Editor is a web-based tool designed to help game developers quickly build, manage, and visualize crafting recipes for their games. This project is part of a larger effort to support game development workflows with purpose-built tools.
+**Build recipes. Test logic. Stay organized.**  
+A visual crafting recipe editor for cozy sim and RPG developers.
 
 ## Purpose
 
-This tool supports cozy simulation and RPG-style games that include item crafting. It aims to streamline content creation and make recipe design more efficient and maintainable.
+Cauldron is designed to help game developers easily build, manage, and visualize item crafting systems. Whether you're prototyping a small game or managing large recipe datasets, Cauldron gives you structure and clarity.
 
 ## Tech Stack
 
-- React with TypeScript (frontend)
+- React + TypeScript (Frontend)
 - Firebase (Firestore, Authentication, and Hosting)
+- Vite (Build Tool)
 
 ## Features
 
 - Add, edit, and delete crafting recipes
 - Assign ingredients and outputs
 - Visual preview of recipes
-- User authentication (for multi-user support)
+- User authentication
 - Real-time database sync with Firebase
 - Designed for future backend swap (Node + Express)
 
