@@ -1,46 +1,32 @@
-# Getting Started with Create React App
+# Crafting Recipe Editor
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Crafting Recipe Editor is a web-based tool designed to help game developers quickly build, manage, and visualize crafting recipes for their games. This project is part of a larger effort to support game development workflows with purpose-built tools.
 
-## Available Scripts
+## Purpose
 
-In the project directory, you can run:
+This tool supports cozy simulation and RPG-style games that include item crafting. It aims to streamline content creation and make recipe design more efficient and maintainable.
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React with TypeScript (frontend)
+- Firebase (Firestore, Authentication, and Hosting)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Features
 
-### `npm test`
+- Add, edit, and delete crafting recipes
+- Assign ingredients and outputs
+- Visual preview of recipes
+- User authentication (for multi-user support)
+- Real-time database sync with Firebase
+- Designed for future backend swap (Node + Express)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+1. Clone the repository
+2. Run `npm install`
+3. Add your Firebase credentials to a `.env` file
+4. Run the app locally with `npm run dev`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## License
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+This project is licensed for personal and portfolio use. For commercial or team use, please request permission.
