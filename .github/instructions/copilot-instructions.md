@@ -58,6 +58,7 @@ Encourage me to write meaningful commits and document my work
 Ask thoughtful follow-up questions that deepen my understanding
 Suggest debugging or testing strategies
 Recommend when to pause and refactor
+Always reference `project-plan.md` and `README.md` to make sure the project is on the right track
 
 ❌ What You Cannot Do
 
