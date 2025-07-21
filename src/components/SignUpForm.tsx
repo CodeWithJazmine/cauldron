@@ -5,16 +5,25 @@ import { auth } from '../firebase'
 export default function SignUpForm() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
     const [errorMessages, setErrorMessages] = useState<string[]>([])
     const [successMessage, setSuccessMessage] = useState('')
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault()
 
+        // Clear success message on a new attempt
+        setSuccessMessage('')
+
+        // Passwords must match
+        if (password !== confirmPassword) {
+            setErrorMessages(['Passwords do not match.'])
+            return
+        }
+
+        // Validate against Firebase password policy
         const status = await validatePassword(getAuth(), password)
         if (!status.isValid) {
-            // Password could not be validated. 
-            // Use status to show what requirements are met and which are missing.
             const messages: string[] = []
 
             if (status.containsUppercaseLetter === false) {
@@ -37,7 +46,7 @@ export default function SignUpForm() {
             return
         }
 
-        // clear the error messages
+        // Clear old errors before trying account creation
         setErrorMessages([])
 
         try {
@@ -45,8 +54,11 @@ export default function SignUpForm() {
             setSuccessMessage('Account created successfully!')
             setEmail('')
             setPassword('')
+            setConfirmPassword('')
         } catch (err) {
             console.error(err)
+            setErrorMessages(['Failed to create account. Please try again.'])
+            // TODO: Create more helpful failed account creation messages. (e.g. Email in use, invalid email address, etc)
         }
     }
 
@@ -69,6 +81,7 @@ export default function SignUpForm() {
                 )}
                 <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
                 <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+                <input type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Confirm Password' />
                 <button type='submit'>Sign Up</button>
             </form>
         </>
