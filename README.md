@@ -1,11 +1,11 @@
 # Cauldron
 
 **Build recipes. Test logic. Stay organized.**  
-A visual crafting recipe editor for cozy sim and RPG developers.
+Cauldron is a visual recipe editor for game developers — build, organize, and export crafting systems without spreadsheets.
 
 ## Purpose
 
-Cauldron is designed to help game developers easily build, manage, and visualize item crafting systems. Whether you're prototyping a small game or managing large recipe datasets, Cauldron gives you structure and clarity.
+Cauldron is a developer tool I’m building for cozy and crafting games. It replaces spreadsheets with a visual editor that lets designers drag and drop items, organize recipes by type, and export to CSV or JSON for Unity and Unreal.
 
 ## Tech Stack
 
