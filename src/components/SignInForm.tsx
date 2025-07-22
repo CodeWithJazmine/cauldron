@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../firebase'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { auth } from '../firebase'
 import { SUCCESS_MESSAGE_TIMEOUT_MS } from '../constants/ui'
 
 export default function SignInForm() {
@@ -9,6 +9,7 @@ export default function SignInForm() {
     const [password, setPassword] = useState('')
     const [successMessage, setSuccessMessage] = useState('')
     const [errorMessages, setErrorMessages] = useState<string[]>([])
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -18,7 +19,6 @@ export default function SignInForm() {
         if (successMessage) {
             const timer = setTimeout(() => {
                 setSuccessMessage('')
-                // Redirect after successful sign-in
                 navigate(from, { replace: true })
             }, SUCCESS_MESSAGE_TIMEOUT_MS)
 
@@ -28,45 +28,88 @@ export default function SignInForm() {
 
     const handleSignIn = async (e: React.FormEvent) => {
         e.preventDefault()
-
-        // Clear success and error messages on a new attempt
+        setLoading(true)
         setSuccessMessage('')
         setErrorMessages([])
 
         try {
             await signInWithEmailAndPassword(auth, email, password)
-
-            setSuccessMessage('Signed in successfully!')
-
+            setSuccessMessage('Welcome back! Redirecting...')
             setEmail('')
             setPassword('')
-        } catch (err) {
+        } catch (err: any) {
             console.error(err)
-            setErrorMessages(['Failed to sign in. Please try again.'])
-            // TODO: Create more helpful failed account creation messages. (e.g. Invalid email address, etc)
+            let errorMessage = 'Failed to sign in. Please try again.'
+
+            if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+                errorMessage = 'Invalid email or password.'
+            } else if (err.code === 'auth/invalid-email') {
+                errorMessage = 'Please enter a valid email address.'
+            } else if (err.code === 'auth/too-many-requests') {
+                errorMessage = 'Too many failed attempts. Please try again later.'
+            }
+
+            setErrorMessages([errorMessage])
+        } finally {
+            setLoading(false)
         }
     }
 
     return (
-        <>
-            {successMessage && (
-                <div style={{ color: 'green' }}>{successMessage}</div>
+        <form onSubmit={handleSignIn} className="auth-form">
+            <h2>Welcome Back!</h2>
+
+            {from !== "/" && (
+                <div className="redirect-notice">
+                    Please sign in to access {from}
+                </div>
             )}
-            <form onSubmit={handleSignIn}>
-                <h2>Sign In</h2>
-                {errorMessages.length > 0 && (
-                    <div style={{ color: 'red' }}>
-                        <ul>
-                            {errorMessages.map((msg, idx) => (
-                                <li key={idx}>{msg}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-                <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
-                <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
-                <button type='submit'>Sign In</button>
-            </form>
-        </>
+
+            {successMessage && (
+                <div className="success-message">{successMessage}</div>
+            )}
+
+            {errorMessages.length > 0 && (
+                <div className="error-messages">
+                    <ul>
+                        {errorMessages.map((msg, idx) => (
+                            <li key={idx}>{msg}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            <div className="form-group">
+                <input
+                    type='email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder='Email Address'
+                    className="form-input"
+                    required
+                    disabled={loading}
+                />
+            </div>
+
+            <div className="form-group">
+                <input
+                    type='password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder='Password'
+                    className="form-input"
+                    required
+                    disabled={loading}
+                />
+            </div>
+
+            <button
+                type='submit'
+                className="form-button"
+                disabled={loading}
+            >
+                {loading ? 'Signing In...' : 'Sign In'}
+            </button>
+        </form>
     )
 }

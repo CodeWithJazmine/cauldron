@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getAuth, createUserWithEmailAndPassword, validatePassword } from 'firebase/auth'
 import { auth } from '../firebase'
-
 import { SUCCESS_MESSAGE_TIMEOUT_MS } from '../constants/ui'
 
 export default function SignUpForm() {
@@ -10,6 +9,7 @@ export default function SignUpForm() {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [errorMessages, setErrorMessages] = useState<string[]>([])
     const [successMessage, setSuccessMessage] = useState('')
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         if (successMessage) {
@@ -23,17 +23,15 @@ export default function SignUpForm() {
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault()
-
-        // Clear success message on a new attempt
+        setLoading(true)
         setSuccessMessage('')
 
-        // Passwords must match
         if (password !== confirmPassword) {
             setErrorMessages(['Passwords do not match.'])
+            setLoading(false)
             return
         }
 
-        // Validate against Firebase password policy
         const status = await validatePassword(getAuth(), password)
         if (!status.isValid) {
             const messages: string[] = []
@@ -55,48 +53,97 @@ export default function SignUpForm() {
             }
 
             setErrorMessages(messages)
+            setLoading(false)
             return
         }
 
-        // Clear old errors before trying account creation
         setErrorMessages([])
 
         try {
             await createUserWithEmailAndPassword(auth, email, password)
-
-            setSuccessMessage('Account created successfully!')
+            setSuccessMessage('Account created successfully! You can now sign in.')
             setEmail('')
             setPassword('')
             setConfirmPassword('')
-        } catch (err) {
+        } catch (err: any) {
             console.error(err)
-            setErrorMessages(['Failed to create account. Please try again.'])
-            // TODO: Create more helpful failed account creation messages. (e.g. Email in use, invalid email address, etc)
+            let errorMessage = 'Failed to create account. Please try again.'
+
+            if (err.code === 'auth/email-already-in-use') {
+                errorMessage = 'An account with this email already exists.'
+            } else if (err.code === 'auth/invalid-email') {
+                errorMessage = 'Please enter a valid email address.'
+            } else if (err.code === 'auth/weak-password') {
+                errorMessage = 'Password is too weak. Please choose a stronger password.'
+            }
+
+            setErrorMessages([errorMessage])
+        } finally {
+            setLoading(false)
         }
     }
 
     return (
-        <>
+        <form onSubmit={handleSignUp} className="auth-form">
+            <h2>Join Cauldron</h2>
+
             {successMessage && (
-                <div style={{ color: 'green' }}>{successMessage}</div>
+                <div className="success-message">{successMessage}</div>
             )}
 
-            <form onSubmit={handleSignUp}>
-                <h2>Sign Up</h2>
-                {errorMessages.length > 0 && (
-                    <div style={{ color: 'red' }}>
-                        <ul>
-                            {errorMessages.map((msg, idx) => (
-                                <li key={idx}>{msg}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-                <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
-                <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
-                <input type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Confirm Password' />
-                <button type='submit'>Sign Up</button>
-            </form>
-        </>
+            {errorMessages.length > 0 && (
+                <div className="error-messages">
+                    <ul>
+                        {errorMessages.map((msg, idx) => (
+                            <li key={idx}>{msg}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            <div className="form-group">
+                <input
+                    type='email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder='Email Address'
+                    className="form-input"
+                    required
+                    disabled={loading}
+                />
+            </div>
+
+            <div className="form-group">
+                <input
+                    type='password'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder='Password'
+                    className="form-input"
+                    required
+                    disabled={loading}
+                />
+            </div>
+
+            <div className="form-group">
+                <input
+                    type='password'
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder='Confirm Password'
+                    className="form-input"
+                    required
+                    disabled={loading}
+                />
+            </div>
+
+            <button
+                type='submit'
+                className="form-button"
+                disabled={loading}
+            >
+                {loading ? 'Creating Account...' : 'Create Account'}
+            </button>
+        </form>
     )
 }

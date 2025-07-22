@@ -1,26 +1,33 @@
-import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext"
+import { useNavigate, Link } from "react-router-dom"
 
 export function AuthStatus() {
-    const { user, logout } = useAuth();
-    const navigate = useNavigate();
+    const { user, logout } = useAuth()
+    const navigate = useNavigate()
 
     if (!user) {
-        // TODO: Create not logged in component?
-        return <p>You are not logged in.</p>
+        return (
+            <div className="auth-status">
+                <Link to="/auth">
+                    <button>Sign In</button>
+                </Link>
+            </div>
+        )
     }
 
     const handleLogout = async () => {
-        await logout();
-        navigate("/");
+        await logout()
+        navigate("/")
     }
 
+    const displayName = user.email?.split('@')[0] || 'User'
+
     return (
-        <p>
-            Welcome {user.email}!{" "}
+        <div className="auth-status">
+            <span>Welcome, {displayName}!</span>
             <button onClick={handleLogout}>
-                Sign out
+                Sign Out
             </button>
-        </p>
+        </div>
     )
 }
