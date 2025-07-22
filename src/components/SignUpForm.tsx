@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { getAuth, createUserWithEmailAndPassword, validatePassword } from 'firebase/auth'
 import { auth } from '../firebase'
+
+import { SUCCESS_MESSAGE_TIMEOUT_MS } from '../constants/ui'
 
 export default function SignUpForm() {
     const [email, setEmail] = useState('')
@@ -8,6 +10,16 @@ export default function SignUpForm() {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [errorMessages, setErrorMessages] = useState<string[]>([])
     const [successMessage, setSuccessMessage] = useState('')
+
+    useEffect(() => {
+        if (successMessage) {
+            const timer = setTimeout(() => {
+                setSuccessMessage('')
+            }, SUCCESS_MESSAGE_TIMEOUT_MS)
+
+            return () => clearTimeout(timer)
+        }
+    }, [successMessage])
 
     const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -51,6 +63,7 @@ export default function SignUpForm() {
 
         try {
             await createUserWithEmailAndPassword(auth, email, password)
+
             setSuccessMessage('Account created successfully!')
             setEmail('')
             setPassword('')

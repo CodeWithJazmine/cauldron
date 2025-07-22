@@ -1,27 +1,66 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../firebase'
+
+import { SUCCESS_MESSAGE_TIMEOUT_MS } from '../constants/ui'
 
 export default function SignInForm() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [successMessage, setSuccessMessage] = useState('')
+    const [errorMessages, setErrorMessages] = useState<string[]>([])
+
+    useEffect(() => {
+        if (successMessage) {
+            const timer = setTimeout(() => {
+                setSuccessMessage('')
+            }, SUCCESS_MESSAGE_TIMEOUT_MS)
+
+            return () => clearTimeout(timer)
+        }
+    }, [successMessage])
 
     const handleSignIn = async (e: React.FormEvent) => {
         e.preventDefault()
+
+        // Clear success and error messages on a new attempt
+        setSuccessMessage('')
+        setErrorMessages([])
+
         try {
             await signInWithEmailAndPassword(auth, email, password)
-            console.log('User signed in!')
+
+            setSuccessMessage('Signed in successfully!')
+
+            setEmail('')
+            setPassword('')
         } catch (err) {
             console.error(err)
+            setErrorMessages(['Failed to sign in. Please try again.'])
+            // TODO: Create more helpful failed account creation messages. (e.g. Invalid email address, etc)
         }
     }
 
     return (
-        <form onSubmit={handleSignIn}>
-            <h2>Sign In</h2>
-            <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
-            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
-            <button type='submit'>Sign In</button>
-        </form>
+        <>
+            {successMessage && (
+                <div style={{ color: 'green' }}>{successMessage}</div>
+            )}
+            <form onSubmit={handleSignIn}>
+                <h2>Sign In</h2>
+                {errorMessages.length > 0 && (
+                    <div style={{ color: 'red' }}>
+                        <ul>
+                            {errorMessages.map((msg, idx) => (
+                                <li key={idx}>{msg}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+                <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
+                <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+                <button type='submit'>Sign In</button>
+            </form>
+        </>
     )
 }
