@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../firebase'
-
+import { useNavigate, useLocation } from 'react-router-dom'
 import { SUCCESS_MESSAGE_TIMEOUT_MS } from '../constants/ui'
 
 export default function SignInForm() {
@@ -9,16 +9,22 @@ export default function SignInForm() {
     const [password, setPassword] = useState('')
     const [successMessage, setSuccessMessage] = useState('')
     const [errorMessages, setErrorMessages] = useState<string[]>([])
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    const from = location.state?.from?.pathname || "/"
 
     useEffect(() => {
         if (successMessage) {
             const timer = setTimeout(() => {
                 setSuccessMessage('')
+                // Redirect after successful sign-in
+                navigate(from, { replace: true })
             }, SUCCESS_MESSAGE_TIMEOUT_MS)
 
             return () => clearTimeout(timer)
         }
-    }, [successMessage])
+    }, [successMessage, navigate, from])
 
     const handleSignIn = async (e: React.FormEvent) => {
         e.preventDefault()
