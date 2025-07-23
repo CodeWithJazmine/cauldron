@@ -22,13 +22,6 @@ Cauldron is a developer tool I’m building for cozy and crafting games. It repl
 - Real-time database sync with Firebase
 - Designed for future backend swap (Node + Express)
 
-## Getting Started
-
-1. Clone the repository
-2. Run `npm install`
-3. Add your Firebase credentials to a `.env` file
-4. Run the app locally with `npm run dev`
-
 ## License
 
 This project is licensed for personal and portfolio use. For commercial or team use, please request permission.
