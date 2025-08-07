@@ -7,6 +7,7 @@ import ErrorPage from './error-page'
 import Auth from './pages/Auth'
 import { AuthProvider } from './contexts/AuthContext.tsx'
 import { RequireAuth } from './components/RequireAuth.tsx'
+import RecipeDisplay from './components/RecipeDisplay.tsx'
 
 // Home page component (for now)
 function HomePage() {
@@ -15,7 +16,12 @@ function HomePage() {
 
 // Protected recipes page (for now)
 function RecipesPage() {
-  return <h3>Your Recipes (Protected Page)</h3>
+  return (
+    <div>
+      <h3>Your Recipes (Protected Page)</h3>
+      <RecipeDisplay />
+    </div>
+  );
 }
 
 const router = createBrowserRouter([
