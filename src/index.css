@@ -55,3 +55,9 @@ textarea {
   margin: 0;
   padding: 0;
 }
+
+#recipe-display-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
