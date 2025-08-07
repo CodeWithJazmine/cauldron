@@ -1,15 +1,22 @@
-interface Ingredient {
+export interface Ingredient {
     id: string;
     name: string;
     quantity: number;
     image?: string;
 }
 
-interface Recipe {
+export interface Recipe {
     id: string;
     title: string;
     ingredients: Ingredient[];
     image?: string;
 }
 
-export type { Ingredient, Recipe };
+export interface RecipeFormProps {
+    onRecipeSaved?: (recipe: Recipe) => void;
+}
+
+export interface RecipeDisplayProps {
+    recipe: Recipe;
+}
+

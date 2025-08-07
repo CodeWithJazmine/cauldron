@@ -1,13 +1,13 @@
 import React from 'react';
-import { sampleRecipe } from '../sample-data';
+import type { RecipeDisplayProps } from '../types/types';
 
-const RecipeDisplay: React.FC = () => {
+export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
     return (
         <div>
-            <b>{sampleRecipe.title}</b>
+            <b>{recipe.title}</b>
             <p>Ingredients:</p>
-            <ul>
-                {sampleRecipe.ingredients.map(ingredient => (
+            <ul id="recipe-display-list">
+                {recipe.ingredients.map(ingredient => (
                     <li key={ingredient.id}>
                         {ingredient.name} - {ingredient.quantity}
                     </li>
@@ -16,5 +16,3 @@ const RecipeDisplay: React.FC = () => {
         </div>
     );
 };
-
-export default RecipeDisplay;
