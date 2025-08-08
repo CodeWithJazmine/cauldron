@@ -1,8 +1,13 @@
 import "./App.css";
 import { Link, Outlet } from "react-router-dom";
 import { AuthStatus } from "./components/AuthStatus";
+import { useAuth } from "./contexts/AuthContext";
+
+
 
 function App() {
+  const { user, loading } = useAuth();
+
   return (
     <div>
       <h1>Cauldron</h1>
@@ -10,9 +15,11 @@ function App() {
 
       <AuthStatus />
 
-      <nav>
-        <Link to="/">Home</Link> | <Link to="/recipes">Recipes</Link>
-      </nav>
+      {user ? (
+        <nav>
+          <Link to="/">Home</Link> | <Link to="/recipes">Recipes</Link>
+        </nav>
+      ) : null}
 
       <Outlet />
     </div>
