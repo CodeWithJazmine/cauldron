@@ -11,9 +11,6 @@ export function AuthStatus() {
         return (
             <div>
                 <p>You are not logged in.</p>
-                <nav>
-                    <Link to="/auth">Sign In</Link>
-                </nav>
             </div>
         )
     }
