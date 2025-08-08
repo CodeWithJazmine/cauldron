@@ -6,9 +6,10 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
     const location = useLocation();
 
     if (loading) {
-        // TODO: create a loading component
+        // TODO: create a loading component (eg. spinner, app branding, better styling, something that can be used across the app)
         return <div><p>Loading...</p></div>
     }
+
     if (!user) {
         return <Navigate to="/auth" state={{ from: location }} replace />
     }

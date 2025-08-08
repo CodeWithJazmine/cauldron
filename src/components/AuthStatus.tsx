@@ -6,11 +6,22 @@ export default function AuthStatus() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 
+    {/*TODO: Move styling to .css!*/ }
+
+    const buttonStyle = {
+        display: 'inline-block',
+        padding: '0.5rem 1rem',
+        backgroundColor: '#4a5568',
+        color: 'white',
+        textDecoration: 'none',
+        borderRadius: '4px'
+    }
+
     if (!user) {
         // TODO: Create not logged in component?
         return (
             <div>
-                <p>You are not logged in.</p>
+                <p>Sign in to use Cauldron.</p>
             </div>
         )
     }
@@ -20,12 +31,19 @@ export default function AuthStatus() {
         navigate("/");
     }
 
+
     return (
-        <p>
-            Welcome {user.email}!{" "}
-            <button onClick={handleLogout}>
+        //  TODO: Move styling to .css!
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            margin: '1rem 0'
+        }}>
+            <p>Welcome {user.email?.split('@')[0]}!{" "}</p>
+            <button style={buttonStyle} onClick={handleLogout}>
                 Sign out
             </button>
-        </p>
+        </div >
     )
 }

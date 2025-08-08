@@ -8,7 +8,15 @@ export default function App() {
     <div>
       {/* Shared content between all pages */}
       <h1>Cauldron</h1>
-      <div>
+
+      {/*TODO: Move styling to .css!*/}
+
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        margin: '1rem 0'
+      }}>
         <AuthStatus />
         <Navigation />
       </div>
