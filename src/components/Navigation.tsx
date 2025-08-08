@@ -1,7 +1,7 @@
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 
-export function Navigation() {
+export default function Navigation() {
     const { user } = useAuth();
 
     return (

@@ -1,27 +1,20 @@
 import "./App.css";
 import { Outlet } from "react-router-dom";
-import { AuthStatus } from "./components/AuthStatus";
-import { Navigation } from "./components/Navigation";
+import AuthStatus from "./components/AuthStatus";
+import Navigation from "./components/Navigation";
 
-
-
-function App() {
-
-
+export default function App() {
   return (
     <div>
+      {/* Shared content between all pages */}
       <h1>Cauldron</h1>
+      <div>
+        <AuthStatus />
+        <Navigation />
+      </div>
 
-      <AuthStatus />
-      <Navigation />
+      {/* Outlet is used to render whichever child route matched the current URL*/}
       <Outlet />
-
-      <p><em>Build recipes. Test logic. Stay organized.</em></p>
-
-
-
     </div>
   )
 }
-
-export default App
