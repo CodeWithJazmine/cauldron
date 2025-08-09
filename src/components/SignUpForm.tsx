@@ -83,9 +83,9 @@ export default function SignUpForm() {
             <form onSubmit={handleSignUp}>
                 <h2>Sign Up</h2>
                 {errorMessages.length > 0 && (<div className='error-message'>
-                    <ul>
+                    <ul className='error-list'>
                         {errorMessages.map((msg, idx) => (
-                            <li className='error-list' key={idx}>{msg}</li>
+                            <li key={idx}>{msg}</li>
                         ))}
                     </ul>
                 </div>
