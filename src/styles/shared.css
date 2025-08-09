@@ -11,3 +11,20 @@
     padding: 0;
     list-style-type: none;
 }
+
+/* Button styling */
+button,
+.button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #4a5568;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+/*Navigation styling*/
+.nav {
+    display: flex;
+    gap: 1rem;
+}
