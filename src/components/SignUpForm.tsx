@@ -1,3 +1,4 @@
+import '../styles/shared.css'
 import { useState, useEffect } from 'react'
 import { getAuth, createUserWithEmailAndPassword, validatePassword } from 'firebase/auth'
 import { auth } from '../firebase'
@@ -76,27 +77,24 @@ export default function SignUpForm() {
     }
 
     return (
-        <>
-            {successMessage && (
-                <div style={{ color: 'green' }}>{successMessage}</div>
-            )}
+        <div>
+            {successMessage && (<div className='success-message'>{successMessage}</div>)}
 
             <form onSubmit={handleSignUp}>
                 <h2>Sign Up</h2>
-                {errorMessages.length > 0 && (
-                    <div style={{ color: 'red' }}>
-                        <ul>
-                            {errorMessages.map((msg, idx) => (
-                                <li key={idx}>{msg}</li>
-                            ))}
-                        </ul>
-                    </div>
+                {errorMessages.length > 0 && (<div className='error-message'>
+                    <ul>
+                        {errorMessages.map((msg, idx) => (
+                            <li className='error-list' key={idx}>{msg}</li>
+                        ))}
+                    </ul>
+                </div>
                 )}
                 <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
                 <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
                 <input type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Confirm Password' />
                 <button type='submit'>Sign Up</button>
             </form>
-        </>
+        </div>
     )
 }

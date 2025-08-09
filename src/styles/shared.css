@@ -1,0 +1,13 @@
+/* Message styling */
+.success-message {
+    color: green;
+}
+
+.error-message {
+    color: red;
+}
+
+.error-list {
+    margin: 0;
+    list-style-type: none;
+}
