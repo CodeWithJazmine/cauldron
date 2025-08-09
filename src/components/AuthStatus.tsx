@@ -1,5 +1,6 @@
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../constants/constants"
 
 
 export default function AuthStatus() {
@@ -28,7 +29,7 @@ export default function AuthStatus() {
 
     const handleLogout = async () => {
         await logout();
-        navigate("/");
+        navigate(ROUTES.HOME);
     }
 
 

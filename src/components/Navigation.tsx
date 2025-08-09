@@ -1,5 +1,6 @@
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
+import { ROUTES } from "../constants/constants"
 
 export default function Navigation() {
     const { user } = useAuth();
@@ -18,12 +19,12 @@ export default function Navigation() {
         <div>
             {!user ? (
                 <nav>
-                    <Link to="/auth" style={buttonStyle}>Sign In</Link>
+                    <Link to={ROUTES.SIGNIN} style={buttonStyle}>Sign In</Link>
                 </nav>
             ) : null}
             {user ? (
                 <nav style={{ display: 'flex', gap: '1rem' }}>
-                    <Link to="/">Home</Link> | <Link to="/recipes">Recipes</Link>
+                    <Link to={ROUTES.HOME}>Home</Link> | <Link to={ROUTES.RECIPES}>Recipes</Link>
                 </nav>
             ) : null}
         </div>

@@ -1,1 +1,0 @@
-export const SUCCESS_MESSAGE_TIMEOUT_MS = 3000

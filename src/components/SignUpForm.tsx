@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { getAuth, createUserWithEmailAndPassword, validatePassword } from 'firebase/auth'
 import { auth } from '../firebase'
 
-import { SUCCESS_MESSAGE_TIMEOUT_MS } from '../constants/ui'
+import { SUCCESS_MESSAGE_TIMEOUT_MS } from '../constants/constants'
 
 export default function SignUpForm() {
     const [email, setEmail] = useState('')
@@ -82,18 +82,19 @@ export default function SignUpForm() {
 
             <form onSubmit={handleSignUp}>
                 <h2>Sign Up</h2>
+                <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
+                <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+                <input type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Confirm Password' />
+
+                <button type='submit'>Sign Up</button>
+
                 {errorMessages.length > 0 && (<div className='error-message'>
                     <ul className='error-list'>
                         {errorMessages.map((msg, idx) => (
                             <li key={idx}>{msg}</li>
                         ))}
                     </ul>
-                </div>
-                )}
-                <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
-                <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
-                <input type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Confirm Password' />
-                <button type='submit'>Sign Up</button>
+                </div>)}
             </form>
         </div>
     )

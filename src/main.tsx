@@ -1,18 +1,20 @@
+import './index.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './index.css'
-import App from './App.tsx'
-import ErrorPage from './error-page.tsx'
-import Auth from './pages/Auth.tsx'
 import { AuthProvider } from './contexts/AuthContext.tsx'
 import { RequireAuth } from './components/RequireAuth.tsx'
+import App from './App.tsx'
+import ErrorPage from './error-page.tsx'
+import SignIn from './pages/SignIn.tsx'
+import SignUp from './pages/SignUp.tsx'
 import RecipesPage from './pages/RecipesPage.tsx'
 import HomePage from './pages/HomePage.tsx'
+import { ROUTES } from './constants/constants.ts'
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: ROUTES.HOME,
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
@@ -21,7 +23,7 @@ const router = createBrowserRouter([
         element: <HomePage />
       },
       {
-        path: "recipes",
+        path: ROUTES.RECIPES,
         element: (
           <RequireAuth>
             <RecipesPage />
@@ -31,8 +33,13 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: "/auth",
-    element: <Auth />,
+    path: ROUTES.SIGNIN,
+    element: <SignIn />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: ROUTES.SIGNUP,
+    element: <SignUp />,
     errorElement: <ErrorPage />
   }
 ])

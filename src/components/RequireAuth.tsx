@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { ROUTES } from "../constants/constants";
 
 export function RequireAuth({ children }: { children: React.ReactNode }) {
     const { user, loading } = useAuth();
@@ -11,7 +12,7 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
     }
 
     if (!user) {
-        return <Navigate to="/auth" state={{ from: location }} replace />
+        return <Navigate to={ROUTES.SIGNIN} state={{ from: location }} replace />
     }
 
     return children;

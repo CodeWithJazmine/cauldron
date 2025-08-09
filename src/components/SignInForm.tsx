@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../firebase'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { SUCCESS_MESSAGE_TIMEOUT_MS } from '../constants/ui'
+import { SUCCESS_MESSAGE_TIMEOUT_MS } from '../constants/constants'
 
 export default function SignInForm() {
     const [email, setEmail] = useState('')
