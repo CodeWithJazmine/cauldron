@@ -6,7 +6,7 @@ export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
         <div>
             <b>{recipe.title}</b>
             <p>Ingredients:</p>
-            <ul id="recipe-display-list">
+            <ul className="recipe-display-list">
                 {recipe.ingredients.map(ingredient => (
                     <li key={ingredient.id}>
                         {ingredient.name} - {ingredient.quantity}

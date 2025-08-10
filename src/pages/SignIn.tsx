@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 export default function SignIn() {
     return (
         <div>
+            <h1>Cauldron</h1>
             <SignInForm />
             <SignInPrompt />
         </div>

@@ -77,10 +77,10 @@ export default function SignUpForm() {
     }
 
     return (
-        <div>
+        <div className='auth-form-container'>
             {successMessage && (<div className='success-message'>{successMessage}</div>)}
 
-            <form onSubmit={handleSignUp}>
+            <form onSubmit={handleSignUp} className='auth-form'>
                 <h2>Sign Up</h2>
                 <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
                 <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />

@@ -49,25 +49,24 @@ export default function SignInForm() {
 
     // TODO: Create "Forgot Password" form
     return (
-        <>
-            {successMessage && (
-                <div style={{ color: 'green' }}>{successMessage}</div>
-            )}
-            <form onSubmit={handleSignIn}>
+        <div className='auth-form-container'>
+            {successMessage && (<div className='success-message'>{successMessage}</div>)}
+
+            <form className="auth-form" onSubmit={handleSignIn}>
                 <h2>Sign In</h2>
-                {errorMessages.length > 0 && (
-                    <div style={{ color: 'red' }}>
-                        <ul>
-                            {errorMessages.map((msg, idx) => (
-                                <li key={idx}>{msg}</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
                 <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
                 <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+
                 <button type='submit'>Sign In</button>
+
+                {errorMessages.length > 0 && (<div className='error-message'>
+                    <ul className='error-list'>
+                        {errorMessages.map((msg, idx) => (
+                            <li key={idx}>{msg}</li>
+                        ))}
+                    </ul>
+                </div>)}
             </form>
-        </>
+        </div>
     )
 }

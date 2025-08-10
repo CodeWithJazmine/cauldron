@@ -96,7 +96,7 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ onRecipeSaved }) => {
                     Add Ingredient
                 </button>
 
-                <ul id="recipe-display-list">
+                <ul className="recipe-display-list">
                     {ingredients.map((ing) => (
                         <li key={ing.id}>
                             {ing.name} - {ing.quantity}
