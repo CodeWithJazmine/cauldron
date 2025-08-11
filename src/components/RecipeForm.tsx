@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useRef } from 'react';
 import type { Ingredient, Recipe, RecipeFormProps } from '../types/types';
 
 export const RecipeForm: React.FC<RecipeFormProps> = ({ onRecipeSaved }) => {
@@ -7,15 +7,7 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ onRecipeSaved }) => {
     const [ingredientQuantity, setIngredientQuantity] = useState(1);
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
-    {/*TODO: Move styling to .css!*/ }
-    const buttonStyle = {
-        display: 'inline-block',
-        padding: '0.5rem 1rem',
-        backgroundColor: '#4a5568',
-        color: 'white',
-        textDecoration: 'none',
-        borderRadius: '4px'
-    }
+    const ingredientInputRef = useRef<HTMLInputElement>(null);
 
     const addIngredient = () => {
         if (!ingredientName || ingredientQuantity < 1) return;
@@ -29,10 +21,16 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ onRecipeSaved }) => {
         setIngredients([...ingredients, newIngredient]);
         setIngredientName('');
         setIngredientQuantity(1);
+
+        ingredientInputRef.current?.focus();
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        addIngredient();
+    };
+
+    const handleSaveRecipe = () => {
         const recipeData: Recipe = {
             id: title.trim().toLowerCase().replace(/\s+/g, '_'),
             title,
@@ -49,65 +47,57 @@ export const RecipeForm: React.FC<RecipeFormProps> = ({ onRecipeSaved }) => {
     };
 
     return (
-        // TODO: Move styling to .css!
-        <div style={{
-            border: '1px solid black',
-            padding: '1.5rem',
-            borderRadius: '4px'
-        }}>
-            <form onSubmit={handleSubmit}>
-                <h3>Create a New Recipe</h3>
+        <form onSubmit={handleSubmit}>
+            <h3>Create a New Recipe</h3>
 
-                <label>
-                    Recipe Title:
-                    <input
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                    />
-                </label>
+            <label>
+                Recipe Title:
+                <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                />
+            </label>
 
-                <h3>Add Ingredients</h3>
-                <label>
-                    Name:
-                    <input
-                        type="text"
-                        value={ingredientName}
-                        onChange={(e) => setIngredientName(e.target.value)}
-                    />
-                </label>
+            <h3>Add Ingredients</h3>
 
-                <br></br>{ /*Is there another way to create a new line? */}
+            <label>
+                Ingredient:
+                <input
+                    ref={ingredientInputRef}
+                    type="text"
+                    value={ingredientName}
+                    onChange={(e) => setIngredientName(e.target.value)}
+                />
+            </label>
 
-                <label>
-                    Quantity:
-                    <input
-                        type="number"
-                        min="1"
-                        value={ingredientQuantity}
-                        onChange={(e) => setIngredientQuantity(Number(e.target.value))}
-                    />
-                </label>
+            <label>
+                Quantity:
+                <input
+                    type="number"
+                    min="1"
+                    value={ingredientQuantity}
+                    onChange={(e) => setIngredientQuantity(Number(e.target.value))}
+                />
+            </label>
 
-                <br></br>  { /*Is there another way to create a new line? */}
 
-                <button style={buttonStyle} type="button" onClick={addIngredient}>
-                    Add Ingredient
-                </button>
+            <button type="submit">
+                Add Ingredient
+            </button>
 
-                <ul className="recipe-display-list">
-                    {ingredients.map((ing) => (
-                        <li key={ing.id}>
-                            {ing.name} - {ing.quantity}
-                        </li>
-                    ))}
-                </ul>
+            {/* Display the current ingredients in the recipe being created*/}
+            <ul className="recipe-display-list">
+                {ingredients.map((ing) => (
+                    <li key={ing.id}>
+                        {ing.name} - {ing.quantity}
+                    </li>
+                ))}
+            </ul>
 
-                <br></br>  { /*Is there another way to create a new line? */}
-                <button style={buttonStyle} type="submit">Save Recipe</button>
-            </form>
-        </div>
+            <button type="button" onClick={handleSaveRecipe}>Save Recipe</button>
+        </form>
     );
 };
 
