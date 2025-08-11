@@ -10,6 +10,12 @@ export default function RecipesPage() {
         setRecipes(prev => prev.filter(recipe => recipe.id !== recipeId));
     }
 
+    const handleUpdateRecipe = (updatedRecipe: Recipe) => {
+        setRecipes(prev => prev.map(recipe =>
+            recipe.id === updatedRecipe.id ? updatedRecipe : recipe
+        ));
+    }
+
     return (
         <div>
             <RecipeForm onRecipeSaved={(newRecipe) => setRecipes(prev => [...prev, newRecipe])} />
@@ -23,6 +29,7 @@ export default function RecipesPage() {
                         key={recipe.id}
                         recipe={recipe}
                         onDelete={handleDeleteRecipe}
+                        onUpdate={handleUpdateRecipe}
                     />
                 ))
             )}

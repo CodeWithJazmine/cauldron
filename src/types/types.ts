@@ -19,5 +19,6 @@ export interface RecipeFormProps {
 export interface RecipeDisplayProps {
     recipe: Recipe;
     onDelete?: (recipeId: string) => void;
+    onUpdate?: (updatedRecipe: Recipe) => void;
 }
 
