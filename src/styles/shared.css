@@ -12,10 +12,27 @@
     list-style-type: none;
 }
 
+.header {
+    background-color: rgba(230, 230, 250, 0.524);
+    display: flex;
+    padding: 2rem;
+    border-bottom: 1px solid rgb(184, 146, 245);
+    justify-content: space-between;
+    align-items: center;
+}
+
 /*Navigation styling*/
 .nav {
     display: flex;
+    align-items: center;
     gap: 1rem;
+}
+
+/* Auth status bar styling */
+.auth-status {
+    display: flex;
+    flex: column;
+    align-items: center;
 }
 
 .auth-form-container {
@@ -49,7 +66,8 @@
     font-size: 1rem;
 }
 
-.auth-form button {
+.auth-form button,
+button {
     margin-top: 0.5rem;
     margin-bottom: 1rem;
 }

@@ -6,14 +6,14 @@ export default function Navigation() {
     const { user } = useAuth();
 
     return (
-        <div>
+        <div className="nav">
             {!user ? (
                 <nav>
                     <Link to={ROUTES.SIGNIN} className="button">Sign In</Link>
                 </nav>
             ) : null}
             {user ? (
-                <nav className="nav">
+                <nav>
                     <Link to={ROUTES.HOME}>Home</Link> | <Link to={ROUTES.RECIPES}>Recipes</Link>
                 </nav>
             ) : null}
