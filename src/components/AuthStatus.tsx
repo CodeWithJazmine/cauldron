@@ -10,9 +10,7 @@ export default function AuthStatus() {
     if (!user) {
         // TODO: Create not logged in component?
         return (
-            <div>
-                <p>Sign in to use Cauldron.</p>
-            </div>
+            <p>Sign in to use Cauldron.</p>
         )
     }
 
@@ -21,13 +19,7 @@ export default function AuthStatus() {
         navigate(ROUTES.HOME);
     }
 
-
     return (
-        <div className="auth-status">
-            <p>Welcome {user.email?.split('@')[0]}!{" "}</p>
-            <button onClick={handleLogout}>
-                Sign out
-            </button>
-        </div >
+        <button onClick={handleLogout}>Sign out</button>
     )
 }

@@ -6,7 +6,7 @@ export default function Navigation() {
     const { user } = useAuth();
 
     return (
-        <div className="nav">
+        <div>
             {!user ? (
                 <nav>
                     <Link to={ROUTES.SIGNIN} className="button">Sign In</Link>
