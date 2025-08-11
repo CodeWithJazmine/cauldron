@@ -1,7 +1,8 @@
 import React from 'react';
 import type { RecipeDisplayProps } from '../types/types';
 
-export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
+export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, onDelete }) => {
+    {/* TODO: Improve styling */ }
     return (
         <div>
             <b>{recipe.title}</b>
@@ -13,6 +14,11 @@ export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe }) => {
                     </li>
                 ))}
             </ul>
+            {onDelete && (
+                <button onClick={() => onDelete(recipe.id)}>
+                    Delete Recipe
+                </button>
+            )}
         </div>
     );
 };
