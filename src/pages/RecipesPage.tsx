@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { RecipeDisplay } from '../components/RecipeDisplay.tsx'
 import { RecipeForm } from '../components/RecipeForm.tsx'
 import type { Recipe } from '../types/types.ts'
+import { exportRecipesJSON, exportRecipesCSV } from '../utility/exportHelpers.ts'
 
 export default function RecipesPage() {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -10,10 +11,20 @@ export default function RecipesPage() {
         setRecipes(prev => prev.filter(recipe => recipe.id !== recipeId));
     }
 
-    const handleUpdateRecipe = (updatedRecipe: Recipe) => {
-        setRecipes(prev => prev.map(recipe =>
-            recipe.id === updatedRecipe.id ? updatedRecipe : recipe
-        ));
+    const handleUpdateRecipe = (updatedRecipe: Recipe, previousId?: string) => {
+        setRecipes(prev =>
+            prev.map(r => (r.id === (previousId ?? updatedRecipe.id) ? updatedRecipe : r))
+        );
+    };
+
+    const handleExportRecipesJSON = (): void => {
+        console.log("Export Recipes JSON button pressed!");
+        exportRecipesJSON(recipes);
+    }
+
+    const handleExportRecipesCSV = (): void => {
+        console.log("Export Recipes CSV button pressed!");
+        exportRecipesCSV(recipes)
     }
 
     return (
@@ -32,7 +43,12 @@ export default function RecipesPage() {
                         onUpdate={handleUpdateRecipe}
                     />
                 ))
-            )}
-        </div>
+
+            )
+            }
+            <h3>Export Recipes</h3>
+            <button type="button" onClick={handleExportRecipesJSON}>Export JSON</button>
+            <button type="button" onClick={handleExportRecipesCSV}>Export CSV</button>
+        </div >
     );
 }

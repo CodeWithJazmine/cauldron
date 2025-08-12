@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import type { RecipeDisplayProps, Ingredient } from '../types/types';
+import type { Recipe, RecipeDisplayProps, Ingredient } from '../types/types';
+import { withRecipeIdsSynced } from '../utility/ids';
 
 export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, onDelete, onUpdate }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -10,14 +11,27 @@ export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, onDelete, 
     const [showAddIngredient, setShowAddIngredient] = useState(false);
 
     const handleSaveEdit = () => {
-        if (onUpdate) {
-            const updatedRecipe = {
-                ...recipe,
-                title: editTitle,
-                ingredients: editIngredients,
-            };
-            onUpdate(updatedRecipe);
+        if (!onUpdate) {
+            setIsEditing(false);
+            return;
         }
+
+        // Build a working copy from the edit state
+        const workingRecipe: Recipe = {
+            ...recipe,
+            title: editTitle,
+            ingredients: editIngredients,
+        };
+
+        // Keep the old id so the parent can find the correct item to replace
+        const previousId = recipe.id;
+
+        // Recompute ids from canonical fields (title/name)
+        const updated = withRecipeIdsSynced(workingRecipe);
+
+        // Notify parent with updated recipe + previousId
+        onUpdate(updated, previousId);
+
         setIsEditing(false);
     };
 
