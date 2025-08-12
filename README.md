@@ -1,27 +1,49 @@
 # Cauldron
 
-**Build recipes. Test logic. Stay organized.**  
-Cauldron is a visual recipe editor for game developers — build, organize, and export crafting systems without spreadsheets.
+**The simplest way to build and export crafting recipes for your game**  
+No spreadsheets. No complex setup. Create, organize, and export to JSON or CSV—ready for Unity or Unreal.
 
-## Purpose
+---
 
-Cauldron is a developer tool I’m building for cozy and crafting games. It replaces spreadsheets with a visual editor that lets designers drag and drop items, organize recipes by type, and export to CSV or JSON for Unity and Unreal.
+## Overview
 
-## Tech Stack
+Cauldron is a visual recipe editor for game developers, designed especially for cozy, crafting, and simulation games.  
+It provides a straightforward way to manage crafting recipes without manual data entry, enabling you to focus on gameplay and systems.
 
-- React + TypeScript (Frontend)
-- Firebase (Firestore, Authentication, and Hosting)
-- Vite (Build Tool)
+---
 
 ## Features
 
-- Add, edit, and delete crafting recipes
-- Assign ingredients and outputs
-- Visual preview of recipes
-- User authentication
-- Real-time database sync with Firebase
-- Designed for future backend swap (Node + Express)
+- **Visual recipe editor** – Drag and drop ingredients, set quantities, and preview instantly.
+- **Full CRUD functionality** – Add, edit, and delete recipes with minimal friction.
+- **Engine-ready export formats**  
+  - **Unity**: JSON export with an included C# loader script.  
+  - **Unreal Engine**: CSV export compatible with Data Tables.
+- **Customizable ingredient schema** – Define the fields your game’s crafting system requires.
+- **User authentication** – Save work online and access from anywhere.
+- **Real-time synchronization** – Powered by Firebase.
+
+---
+
+## How It Works
+
+1. Create recipes visually.
+2. Organize by category or type.
+3. Export in JSON (Unity) or CSV (Unreal) format.
+4. Import into your game engine using the provided helpers.
+
+---
+
+## Tech Stack
+
+- **Frontend:** React + TypeScript  
+- **Backend & Hosting:** Firebase (Firestore, Authentication)  
+- **Build Tool:** Vite  
+- **Planned Backend Option:** Node.js + Express
+
+---
 
 ## License
 
-This project is licensed for personal and portfolio use. For commercial or team use, please request permission.
+This project is licensed for personal and portfolio use.  
+For commercial or team use, please request permission.
