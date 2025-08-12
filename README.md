@@ -47,3 +47,19 @@ It provides a straightforward way to manage crafting recipes without manual data
 
 This project is licensed for personal and portfolio use.  
 For commercial or team use, please request permission.
+
+## Roadmap
+
+**MVP** – Target: November 2025
+- [x] Recipe creation (CRUD)
+- [x] Export to JSON and CSV
+- [ ] Unity loader script
+- [ ] Unreal CSV import guide
+- [ ] Public release
+
+**Post-MVP Features**
+- [ ] Ingredient schema editor
+- [ ] Export profiles (Unity/Unreal/Raw)
+- [ ] Import recipes into Cauldron
+- [ ] Field alias mapping
+- [ ] Preset templates
