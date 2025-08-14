@@ -2,7 +2,7 @@ import '../styles/shared.css'
 import { useState, useEffect } from 'react'
 import { getAuth, createUserWithEmailAndPassword, validatePassword } from 'firebase/auth'
 import { auth } from '../firebase'
-
+import { useNavigate, useLocation } from 'react-router-dom'
 import { SUCCESS_MESSAGE_TIMEOUT_MS } from '../constants/constants'
 
 export default function SignUpForm() {
@@ -11,11 +11,17 @@ export default function SignUpForm() {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [errorMessages, setErrorMessages] = useState<string[]>([])
     const [successMessage, setSuccessMessage] = useState('')
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    const from = location.state?.from?.pathname || "/"
 
     useEffect(() => {
         if (successMessage) {
             const timer = setTimeout(() => {
                 setSuccessMessage('')
+                // Redirect after successful sign-up
+                navigate(from, { replace: true })
             }, SUCCESS_MESSAGE_TIMEOUT_MS)
 
             return () => clearTimeout(timer)
@@ -27,6 +33,7 @@ export default function SignUpForm() {
 
         // Clear success message on a new attempt
         setSuccessMessage('')
+        setErrorMessages([])
 
         // Passwords must match
         if (password !== confirmPassword) {
@@ -78,10 +85,10 @@ export default function SignUpForm() {
 
     return (
         <div className='auth-form-container'>
-            {successMessage && (<div className='success-message'>{successMessage}</div>)}
 
             <form onSubmit={handleSignUp} className='auth-form'>
                 <h2>Sign Up</h2>
+                {successMessage && (<div className='success-message'>{successMessage}</div>)}
                 <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
                 <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
                 <input type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Confirm Password' />
