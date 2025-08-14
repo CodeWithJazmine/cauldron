@@ -1,5 +1,5 @@
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ROUTES } from "../constants/constants"
 
 
@@ -10,7 +10,9 @@ export default function AuthStatus() {
     if (!user) {
         // TODO: Create not logged in component?
         return (
-            <p>Sign in to use Cauldron.</p>
+            <nav>
+                <Link to={ROUTES.SIGNIN} className="button">Sign In</Link>
+            </nav>
         )
     }
 

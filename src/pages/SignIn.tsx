@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function SignIn() {
     return (
         <div className="centered-page">
-            <h1>Cauldron</h1>
+            <Link to={ROUTES.HOME}><h1>Cauldron</h1></Link>
             <SignInForm />
             <SignInPrompt />
         </div>

@@ -7,13 +7,15 @@ export default function Header() {
     return (
         <header className="site-header">
             <div className="site-header__inner">
-                <div className="brand">
-                    <Link to={ROUTES.HOME} className="brand__link"><h1>Cauldron</h1></Link>
-                </div>
 
                 <nav className="primary-nav">
                     <Navigation />
                 </nav>
+
+                <div className="brand">
+                    <Link to={ROUTES.HOME}><h1>Cauldron</h1></Link>
+                </div>
+
 
                 <div className="account">
                     <AuthStatus />

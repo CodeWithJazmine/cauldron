@@ -7,14 +7,18 @@ export default function Navigation() {
 
     return (
         <div>
-            {!user ? (
+
+            {/* TODO: Should any navigation show if the visitor is not signed in? */}
+            {/* {!user ? (
                 <nav>
                     <Link to={ROUTES.SIGNIN} className="button">Sign In</Link>
                 </nav>
-            ) : null}
+            ) : null} */}
+
             {user ? (
                 <nav>
-                    <Link to={ROUTES.HOME}>Home</Link> | <Link to={ROUTES.RECIPES}>Recipes</Link>
+                    <Link to={ROUTES.HOME}>Home</Link>
+                    <Link to={ROUTES.RECIPES}>Recipes</Link>
                 </nav>
             ) : null}
         </div>

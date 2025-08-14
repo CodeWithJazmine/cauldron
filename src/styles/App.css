@@ -1,0 +1,161 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Page layout utilities */
+
+/* Header layout */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(6px);
+  background: rgba(230, 230, 250, 0.6);
+  border-bottom: 1px solid rgb(184, 146, 245);
+}
+
+.site-header__inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 auto;
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+/* Center Header */
+.brand {
+  display: flex;
+  justify-content: center;
+}
+
+/* Left Header */
+.primary-nav {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.primary-nav a {
+  text-decoration: none;
+  margin: 0 0.5rem;
+}
+
+/* Right Header */
+.account {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Make sure page content isn’t hidden under sticky header */
+.main-content {
+  padding: 1rem 1.25rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.centered-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 1rem;
+}
+
+.centered-content {
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 1rem;
+}
+
+.centered-content nav {
+  display: unset;
+}
+
+/* Sign-in and Sign-up page styling */
+.auth-form-container {
+  width: 100%;
+  max-width: 300px;
+  margin: 1rem;
+  display: flex;
+  place-content: center;
+  border-radius: 8px;
+  background-color: rgba(172, 127, 226, 0.31);
+  box-shadow: 0 .5rem 1rem rgba(172, 127, 226, 0.31);
+  box-sizing: border-box;
+  padding: 0.75rem;
+}
+
+.auth-form-container h2 {
+  margin-bottom: 1rem;
+  color: #4a5568
+}
+
+.auth-form {
+  margin: 1rem;
+  display: grid;
+  width: 250px;
+  max-width: 100%;
+}
+
+.auth-form input {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border: 2px solid rgba(172, 127, 226, 0.4);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+}
+
+.auth-form button,
+button {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Recipe page styling */
+.recipe-display-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Message styling */
+.success-message {
+  color: green;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  color: red;
+  max-height: 6rem;
+  overflow-y: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.error-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.error-list li {
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Small screens: stack nicely */
+@media (max-width: 640px) {
+  .site-header__inner {
+    grid-template-columns: 1fr auto 1fr;
+  }
+}
