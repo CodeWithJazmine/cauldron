@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { Recipe, RecipeDisplayProps, Ingredient } from '../types/types';
-import { withRecipeIdsSynced } from '../utility/ids';
+import { slugify } from '../utility/ids';
 
 export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, onDelete, onUpdate }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -23,14 +23,19 @@ export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, onDelete, 
             ingredients: editIngredients,
         };
 
-        // Keep the old id so the parent can find the correct item to replace
-        const previousId = recipe.id;
+        // For Firestore operations, we need to keep the original document ID
+        // But we should always regenerate ingredient IDs from their names for consistency
+        const updated: Recipe = {
+            ...workingRecipe,
+            id: recipe.id, // Preserve the original Firestore document ID
+            ingredients: workingRecipe.ingredients.map(i => ({
+                ...i,
+                id: slugify(i.name), // Always regenerate ingredient ID from current name
+            })),
+        };
 
-        // Recompute ids from canonical fields (title/name)
-        const updated = withRecipeIdsSynced(workingRecipe);
-
-        // Notify parent with updated recipe + previousId
-        onUpdate(updated, previousId);
+        // Notify parent with updated recipe
+        onUpdate(updated);
 
         setIsEditing(false);
     };
@@ -48,7 +53,7 @@ export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, onDelete, 
         if (!newIngredientName || newIngredientQuantity < 1) return;
 
         const newIngredient: Ingredient = {
-            id: newIngredientName.trim().toLowerCase().replace(/\s+/g, '_'),
+            id: slugify(newIngredientName),
             name: newIngredientName,
             quantity: newIngredientQuantity,
         };
@@ -60,20 +65,27 @@ export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, onDelete, 
     };
 
     const updateIngredient = (index: number, field: 'name' | 'quantity', value: string | number) => {
-        setEditIngredients(prev => prev.map((ingredient, i) =>
-            i === index ? { ...ingredient, [field]: value } : ingredient
-        ));
+        setEditIngredients(prev => prev.map((ingredient, i) => {
+            if (i !== index) return ingredient;
+
+            const updated = { ...ingredient, [field]: value };
+
+            // If the name changed, regenerate the ID to keep it in sync
+            if (field === 'name') {
+                updated.id = slugify(value as string);
+            }
+
+            return updated;
+        }));
     };
 
     const removeIngredient = (index: number) => {
         setEditIngredients(prev => prev.filter((_, i) => i !== index));
     };
 
-    {/* TODO: Improve styling */ }
     return (
         <div>
             {isEditing ? (
-                // Edit Mode
                 <div>
                     <input
                         type="text"
@@ -83,7 +95,7 @@ export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, onDelete, 
                     <p>Ingredients:</p>
                     <ul className="recipe-display-list">
                         {editIngredients.map((ingredient, index) => (
-                            <li key={ingredient.id}>
+                            <li key={index}>
                                 <input
                                     type="text"
                                     value={ingredient.name}
@@ -153,8 +165,8 @@ export const RecipeDisplay: React.FC<RecipeDisplayProps> = ({ recipe, onDelete, 
                         {onUpdate && (
                             <button onClick={() => setIsEditing(true)}>Edit</button>
                         )}
-                        {onDelete && (
-                            <button onClick={() => onDelete(recipe.id)}>Delete Recipe</button>
+                        {onDelete && recipe.id && (
+                            <button onClick={() => onDelete(recipe.id!)}>Delete Recipe</button>
                         )}
                     </div>
                 </div>

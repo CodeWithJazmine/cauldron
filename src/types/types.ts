@@ -6,19 +6,18 @@ export interface Ingredient {
 }
 
 export interface Recipe {
-    id: string;
+    id?: string;
     title: string;
     ingredients: Ingredient[];
     image?: string;
-}
-
-export interface RecipeFormProps {
-    onRecipeSaved?: (recipe: Recipe) => void;
+    userId: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface RecipeDisplayProps {
     recipe: Recipe;
     onDelete?: (recipeId: string) => void;
-    onUpdate?: (updatedRecipe: Recipe, previousId?: string) => void;
+    onUpdate?: (updatedRecipe: Recipe) => void;
 }
 

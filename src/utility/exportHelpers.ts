@@ -1,4 +1,17 @@
 import type { Recipe } from '../types/types'
+import { slugify } from './ids'
+
+// Transform recipe for export with slugified IDs
+function createExportRecipe(recipe: Recipe) {
+    return {
+        ...recipe,
+        id: slugify(recipe.title), // Use slugified title for export ID
+        ingredients: recipe.ingredients.map(ingredient => ({
+            ...ingredient,
+            id: slugify(ingredient.name) // Use slugified name for export ingredient ID
+        }))
+    };
+}
 
 function downloadBlob(data: Blob, filename: string) {
     const url = URL.createObjectURL(data);
@@ -17,16 +30,15 @@ function sortIngredientsByName<T extends { name: string }>(arr: T[]): T[] {
 }
 
 export function exportRecipesJSON(recipes: Recipe[]) {
-    const normalized = sortRecipes(recipes).map(r => ({
-        id: r.id,
-        title: r.title,
-        // Optional fields reserved for future schema
-        category: null as string | null,
+    const exportRecipes = recipes.map(createExportRecipe);
+    const normalized = sortRecipes(exportRecipes).map(r => ({
+        recipe_id: r.id,
+        recipe_title: r.title,
+        recipe_category: null as string | null,
         ingredients: sortIngredientsByName(r.ingredients).map(i => ({
-            id: i.id,
-            name: i.name,
+            ingredient_id: i.id,
+            ingredient_name: i.name,
             quantity: i.quantity,
-            unit: null as string | null,
         })),
     }));
 
@@ -46,23 +58,24 @@ function csvEscape(v: unknown): string {
 }
 
 export function exportRecipesCSV(recipes: Recipe[]) {
-    const headers = ["recipe_id", "recipe_title", "category", "ingredient_id", "ingredient_name", "quantity", "unit"];
+    const exportRecipes = recipes.map(createExportRecipe);
+    const headers = ["Row Name", "Recipe Name", "Required Ingredients", "Crafted Item Name", "Crafted Item Quantity"];
     const rows: string[] = [headers.join(",")];
 
-    for (const r of sortRecipes(recipes)) {
-        for (const ing of sortIngredientsByName(r.ingredients)) {
-            rows.push([
-                r.id,
-                r.title,
-                "",            // category placeholder
-                ing.id,
-                ing.name,
-                ing.quantity,
-                ""             // unit placeholder
-            ].map(csvEscape).join(","));
-        }
+    for (const r of sortRecipes(exportRecipes)) {
+        const requiredIngredients = r.ingredients
+            .map(ing => `(("IngredientName": "${ing.name}", "Quantity": ${ing.quantity} ))`)
+            .join(", ");
+
+        rows.push([
+            r.id,
+            r.title,
+            `(${requiredIngredients})`,
+            r.title,
+            1                        // Crafted Item Quantity (assuming 1 for now)
+        ].map(csvEscape).join(","));
     }
 
     const blob = new Blob([rows.join("\n")], { type: "text/csv;charset=utf-8" });
-    downloadBlob(blob, `cauldron-recipes-${Date.now()}.csv`);
+    downloadBlob(blob, `cauldron-recipes-ue5-${Date.now()}.csv`);
 }
