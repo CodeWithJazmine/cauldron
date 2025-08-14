@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../firebase'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { SUCCESS_MESSAGE_TIMEOUT_MS } from '../constants/constants'
+import { SUCCESS_MESSAGE_TIMEOUT_MS, ROUTES } from '../constants/constants'
 
 export default function SignInForm() {
     const [email, setEmail] = useState('')
@@ -12,7 +12,7 @@ export default function SignInForm() {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const from = location.state?.from?.pathname || "/"
+    const from = location.state?.from?.pathname || ROUTES.RECIPES
 
     useEffect(() => {
         if (successMessage) {
